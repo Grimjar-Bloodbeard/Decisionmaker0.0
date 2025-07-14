@@ -90,7 +90,26 @@ document.addEventListener("DOMContentLoaded", () => {
     champName.textContent = name;
     champDiv.classList.remove("hidden");
   }
+function reportResults(opts, picks, winner) {
+  fetch("YOUR_WEB_APP_URL_HERE", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ options: opts, picks, winner })
+  })
+  .then(r => r.json())
+  .then(res => console.log("GAS saved:", res))
+  .catch(console.error);
+}
 
+function showChampion(name) {
+  duelDiv.classList.add("hidden");
+  champName.textContent = name;
+  champDiv.classList.remove("hidden");
+
+  // Report to Google Sheets
+  const opts   = JSON.parse(localStorage.getItem("duelOpts") || "[]");
+  reportResults(opts, winners, name);
+}
   // 9) Restart
   redoBtn.addEventListener("click", () => location.reload());
 });
