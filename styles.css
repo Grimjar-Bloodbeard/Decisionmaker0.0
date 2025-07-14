@@ -1,23 +1,19 @@
-/* -----------------------------------------------  
-   Root variables for easy theming  
-   ----------------------------------------------- */
+/* ---------- Variables & Reset ---------- */
 :root {
   --bg:        #f4f1ea;
   --primary:   #8b4513;
   --accent:    #d2691e;
   --text:      #3b2f2f;
-  --btn-radius:#806040;
-  --font-main: 'Segoe UI', sans-serif;
+  --btn-radius:8px;
+  --font:      'Segoe UI', sans-serif;
 }
-
-/* -----------------------------------------------  
-   Global resets & body  
-   ----------------------------------------------- */
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ---------- Global Layout ---------- */
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-main);
+  font-family: var(--font);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,9 +21,7 @@ body {
 }
 .hidden { display: none; }
 
-/* -----------------------------------------------  
-   Setup Screen  
-   ----------------------------------------------- */
+/* ---------- Setup Screen ---------- */
 #setup {
   width: 100%;
   max-width: 400px;
@@ -56,16 +50,7 @@ button {
 }
 button:hover { background: var(--accent); }
 
-/* -----------------------------------------------  
-   Clear Saved Button (distinct style)  
-   ----------------------------------------------- */
-#clearBtn {
-  background: #a33;
-}
-
-/* -----------------------------------------------  
-   Duel Screen & Cards  
-   ----------------------------------------------- */
+/* ---------- Duel Screen ---------- */
 #duel {
   display: flex;
   align-items: center;
@@ -76,16 +61,14 @@ button:hover { background: var(--accent); }
 }
 .duel-btn {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
   margin: 0 0.25rem;
   background: #fff;
   border: 3px solid var(--primary);
   border-radius: var(--btn-radius);
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
 }
 .duel-btn:hover {
   transform: translateY(-4px);
@@ -95,27 +78,16 @@ button:hover { background: var(--accent); }
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
-/* 3a) Opossum Knight Images */
-.opt-img {
-  width: 80px;
-  height: auto;
-  margin-bottom: 0.5rem;
-}
-/* 3b) Option label text */
 .opt-label {
   font-size: 1.2rem;
   color: var(--primary);
 }
-
-/* Versus text */
 .versus {
   font-size: 1.5rem;
   margin: 0 0.5rem;
 }
 
-/* -----------------------------------------------  
-   Champion Screen  
-   ----------------------------------------------- */
+/* ---------- Champion Screen ---------- */
 #champion {
   text-align: center;
   margin-top: 2rem;
