@@ -1,45 +1,82 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) Grab all your elements AFTER the DOM is ready
-  const setup     = document.getElementById("setup");
-  const optionsIn = document.getElementById("optionsInput");
-  const startBtn  = document.getElementById("startBtn");
-  const duelDiv   = document.getElementById("duel");
-  const leftBtn   = document.getElementById("leftOpt");
-  const rightBtn  = document.getElementById("rightOpt");
-  const champDiv  = document.getElementById("champion");
-  const champName = document.getElementById("champName");
-  const redoBtn   = document.getElementById("redoBtn");
+  // 1) Elements
+  const setup      = document.getElementById("setup");
+  const optionsIn  = document.getElementById("optionsInput");
+  const startBtn   = document.getElementById("startBtn");
+  const duelDiv    = document.getElementById("duel");
+  const leftBtn    = document.getElementById("leftOpt");
+  const rightBtn   = document.getElementById("rightOpt");
+  const champDiv   = document.getElementById("champion");
+  const champName  = document.getElementById("champName");
+  const redoBtn    = document.getElementById("redoBtn");
 
-  let bracket = [], winners = [], currentPair;
+  let bracket = [], winners = [];
 
-  // 2) Now your click handler will actually find startBtn
+  // 2) Start comparison
   startBtn.addEventListener("click", () => {
-    console.log("👆 Start clicked"); // sanity check
+    // split on commas or newlines
     const opts = optionsIn.value
-      .split("\n")
+      .split(/[\n,]+/)
       .map(o => o.trim())
       .filter(o => o);
+
     if (opts.length < 2) {
-      alert("Enter at least 2 options.");
+      alert("Enter at least two items to compare.");
       return;
     }
+
     bracket = buildPairs(shuffle(opts));
     setup.classList.add("hidden");
     duelDiv.classList.remove("hidden");
     nextDuel();
   });
 
-  // … rest of your functions exactly as before …
+  // 3) Shuffle & pair builder
   function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
   }
-  function buildPairs(arr) { /* … */ }
-  function nextDuel() { /* … */ }
-  function showChampion(name) { /* … */ }
+  function buildPairs(arr) {
+    const pairs = [];
+    for (let i = 0; i < arr.length; i += 2) {
+      const pair = arr.slice(i, i + 2);
+      // if odd, auto-advance the last one
+      pairs.push(pair.length === 2 ? pair : [pair[0], pair[0]]);
+    }
+    return pairs;
+  }
 
+  // 4) Show next duel
+  function nextDuel() {
+    if (bracket.length === 0) {
+      // finalize: only one winner remains
+      showChampion(winners[0]);
+      return;
+    }
+    const [a, b] = bracket.shift();
+    leftBtn.textContent  = a;
+    rightBtn.textContent = b;
+  }
+
+  // 5) Handle duels
   [leftBtn, rightBtn].forEach(btn => {
-    btn.addEventListener("click", () => { /* … */ });
+    btn.addEventListener("click", () => {
+      winners.push(btn.textContent);
+
+      if (bracket.length === 0 && winners.length > 1) {
+        // build next round
+        bracket = buildPairs(shuffle(winners));
+        winners = [];
+      }
+
+      nextDuel();
+    });
   });
 
+  // 6) Show champion and allow restart
+  function showChampion(name) {
+    duelDiv.classList.add("hidden");
+    champName.textContent = name;
+    champDiv.classList.remove("hidden");
+  }
   redoBtn.addEventListener("click", () => location.reload());
 });
