@@ -1,51 +1,33 @@
-/* styles.css */
-
-/* Base page styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
   font-family: sans-serif;
-  padding: 1rem;
-  background: #fff;
-  color: #333;
-}
-
-/* Hide elements by default */
-.hidden {
-  display: none;
-}
-
-/* Headings */
-h1,
-h2 {
-  margin-top: 0;
-}
-
-/* Form controls */
-select,
-button {
-  margin: 0.5rem 0;
-  padding: 0.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-/* Slider row layout */
-.slider-row {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  margin: 0.5rem 0;
+  padding: 1rem;
 }
-
-.slider-row label {
-  flex: 1;
+.hidden { display: none; }
+#setup { width: 100%; max-width: 400px; }
+textarea {
+  width: 100%; margin: 0.5rem 0; padding: 0.75rem;
+  font-size: 1rem; resize: vertical;
 }
-
-.slider-row input[type="range"] {
-  flex: 2;
-  margin: 0 0.5rem;
+button {
+  width: 100%; padding: 0.75rem; font-size: 1.1rem;
+  margin-bottom: 1rem; background: #5a3e2b; color: #fff;
+  border: none; border-radius: 4px;
 }
-
-.slider-row span {
-  width: 2rem;
-  text-align: right;
+#duel {
+  display: flex; align-items: center; justify-content: space-between;
+  width: 100%; max-width: 500px;
 }
+.duel-btn {
+  flex: 1; padding: 1.5rem; margin: 0.5rem;
+  font-size: 1.2rem; background: #8b4513; color: #fff;
+  border: none; border-radius: 8px; min-height: 100px;
+}
+.versus {
+  font-size: 1.5rem; margin: 0 0.5rem;
+}
+#champion { text-align: center; margin-top: 2rem; }
+#champName { font-size: 2rem; margin: 1rem 0; }
