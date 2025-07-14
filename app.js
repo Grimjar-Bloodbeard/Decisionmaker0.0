@@ -20,15 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const resTable = document.getElementById("resTable");
   const redoBtn  = document.getElementById("redoBtn");
 
-  // 3) Populate dropdown with placeholder + real options
-  ctxSel.innerHTML = `<option value="">— Select a context —</option>`;
-  Object.keys(data.contexts).forEach(ctx => {
-    const opt = document.createElement("option");
-    opt.value       = ctx;
-    opt.textContent = ctx;
-    ctxSel.append(opt);
-  });
-
+// 3) Populate the context dropdown, with a blank placeholder
+const ctxSel = document.getElementById("contextSelect");
+// start with an empty “select…” item
+ctxSel.innerHTML = `<option value="">— Select a context —</option>`;
+// then add your real contexts
+Object.keys(data.contexts).forEach(ctx => {
+  const opt = document.createElement("option");
+  opt.value       = ctx;
+  opt.textContent = ctx;
+  ctxSel.append(opt);
+});
   // 4) Enable Start only when something’s selected
   startBtn.disabled = true;
   ctxSel.addEventListener("change", () => {
