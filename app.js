@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
     champDiv.classList.remove("hidden");
   }
 function reportResults(opts, picks, winner) {
-  fetch("YOUR_WEB_APP_URL_HERE", {
+  fetch("https://script.google.com/macros/s/AKfycbzFMEIKkCQpDpmHVgXBvNGr1ZXEX0qec4BgONZWfa0u_gd7I4bSIsjtgvGauP2c4Qrs/exec", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ options: opts, picks, winner })
