@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Decision Maker</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body>
+  <div id="app">
+    <h1>Choose Your Daily Task</h1>
+    <select id="contextSelect"></select>
+    <button id="startBtn" disabled>Start</button>
+    <div id="scoring" class="hidden">
+      <h2 id="optName"></h2>
+      <div id="sliders"></div>
+      <button id="nextBtn">Next</button>
+    </div>
+    <div id="results" class="hidden">
+      <h2>Results</h2>
+      <table id="resTable"></table>
+      <button id="redoBtn">Redo</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
