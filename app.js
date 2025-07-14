@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const setup      = document.getElementById("setup");
   const optionsIn  = document.getElementById("optionsInput");
   const startBtn   = document.getElementById("startBtn");
+  const clearBtn   = document.getElementById("clearBtn");     // NEW
   const duelDiv    = document.getElementById("duel");
   const leftBtn    = document.getElementById("leftOpt");
   const rightBtn   = document.getElementById("rightOpt");
@@ -12,22 +13,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let bracket = [], winners = [];
 
-  // 2) Start—parse input into an array
+  // 2) Persistent state: load saved list, show Clear if exists
+  const saved = JSON.parse(localStorage.getItem("duelOpts") || "[]");
+  if (saved.length > 1) {
+    optionsIn.value = saved.join("\n");
+    clearBtn.classList.remove("hidden");
+  }
+
+  // 3) Clear stored list
+  clearBtn.addEventListener("click", () => {
+    localStorage.removeItem("duelOpts");
+    optionsIn.value = "";
+    clearBtn.classList.add("hidden");
+  });
+
+  // 4) Start duels: parse input, save, then kick off bracket
   startBtn.addEventListener("click", () => {
-    const raw = optionsIn.value;
-    console.log("Raw input:", raw);
-
-    const opts = raw
-      .split(/[\n,]+/)        // split on commas or newlines
-      .map(o => o.trim())     // trim whitespace
-      .filter(o => o);        // drop empty strings
-
-    console.log("Parsed options:", opts);
+    const opts = optionsIn.value
+      .split(/[\n,]+/)      // split on newlines or commas
+      .map(o => o.trim())
+      .filter(o => o);
 
     if (opts.length < 2) {
-      alert("Enter at least two items to compare.");
+      alert("Enter at least two items.");
       return;
     }
+
+    localStorage.setItem("duelOpts", JSON.stringify(opts));  // SAVE
+    clearBtn.classList.remove("hidden");
 
     bracket = buildPairs(shuffle(opts));
     setup.classList.add("hidden");
@@ -35,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextDuel();
   });
 
-  // 3) Shuffle & pair up
+  // 5) Shuffle & pair builder
   function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
   }
@@ -48,24 +61,25 @@ document.addEventListener("DOMContentLoaded", () => {
     return pairs;
   }
 
-  // 4) Show next duel matchup
+  // 6) Show next duel
   function nextDuel() {
     if (bracket.length === 0) {
-      // only one winner left
       return showChampion(winners[0]);
     }
     const [a, b] = bracket.shift();
-    leftBtn.textContent  = a;
-    rightBtn.textContent = b;
+
+    // 6a) Update both image alt texts & labels
+    leftBtn.querySelector(".opt-img").alt   = a;
+    rightBtn.querySelector(".opt-img").alt  = b;
+    leftBtn.querySelector(".opt-label").textContent  = a;
+    rightBtn.querySelector(".opt-label").textContent = b;
   }
 
-  // 5) Handle each choice
+  // 7) Handle duels
   [leftBtn, rightBtn].forEach(btn => {
     btn.addEventListener("click", () => {
-      console.log("Chose:", btn.textContent);
-      winners.push(btn.textContent);
+      winners.push(btn.querySelector(".opt-label").textContent);
 
-      // when current round is done but multiple winners—seed next round
       if (bracket.length === 0 && winners.length > 1) {
         bracket = buildPairs(shuffle(winners));
         winners = [];
@@ -75,13 +89,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6) Show the final champion
+  // 8) Show champion
   function showChampion(name) {
     duelDiv.classList.add("hidden");
     champName.textContent = name;
     champDiv.classList.remove("hidden");
   }
 
-  // 7) Restart
+  // 9) Start over
   redoBtn.addEventListener("click", () => location.reload());
 });
