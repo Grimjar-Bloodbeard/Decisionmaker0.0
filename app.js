@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) Elements
+  // 1) Grab elements
   const setup      = document.getElementById("setup");
   const optionsIn  = document.getElementById("optionsInput");
   const startBtn   = document.getElementById("startBtn");
@@ -12,13 +12,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let bracket = [], winners = [];
 
-  // 2) Start comparison
+  // 2) Start—parse input into an array
   startBtn.addEventListener("click", () => {
-    // split on commas or newlines
-    const opts = optionsIn.value
-      .split(/[\n,]+/)
-      .map(o => o.trim())
-      .filter(o => o);
+    const raw = optionsIn.value;
+    console.log("Raw input:", raw);
+
+    const opts = raw
+      .split(/[\n,]+/)        // split on commas or newlines
+      .map(o => o.trim())     // trim whitespace
+      .filter(o => o);        // drop empty strings
+
+    console.log("Parsed options:", opts);
 
     if (opts.length < 2) {
       alert("Enter at least two items to compare.");
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextDuel();
   });
 
-  // 3) Shuffle & pair builder
+  // 3) Shuffle & pair up
   function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
   }
@@ -39,31 +43,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const pairs = [];
     for (let i = 0; i < arr.length; i += 2) {
       const pair = arr.slice(i, i + 2);
-      // if odd, auto-advance the last one
       pairs.push(pair.length === 2 ? pair : [pair[0], pair[0]]);
     }
     return pairs;
   }
 
-  // 4) Show next duel
+  // 4) Show next duel matchup
   function nextDuel() {
     if (bracket.length === 0) {
-      // finalize: only one winner remains
-      showChampion(winners[0]);
-      return;
+      // only one winner left
+      return showChampion(winners[0]);
     }
     const [a, b] = bracket.shift();
     leftBtn.textContent  = a;
     rightBtn.textContent = b;
   }
 
-  // 5) Handle duels
+  // 5) Handle each choice
   [leftBtn, rightBtn].forEach(btn => {
     btn.addEventListener("click", () => {
+      console.log("Chose:", btn.textContent);
       winners.push(btn.textContent);
 
+      // when current round is done but multiple winners—seed next round
       if (bracket.length === 0 && winners.length > 1) {
-        // build next round
         bracket = buildPairs(shuffle(winners));
         winners = [];
       }
@@ -72,11 +75,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6) Show champion and allow restart
+  // 6) Show the final champion
   function showChampion(name) {
     duelDiv.classList.add("hidden");
     champName.textContent = name;
     champDiv.classList.remove("hidden");
   }
+
+  // 7) Restart
   redoBtn.addEventListener("click", () => location.reload());
 });
