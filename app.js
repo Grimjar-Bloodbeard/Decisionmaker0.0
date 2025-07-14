@@ -1,36 +1,36 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) Grab elements
-  const setup      = document.getElementById("setup");
-  const optionsIn  = document.getElementById("optionsInput");
-  const startBtn   = document.getElementById("startBtn");
-  const clearBtn   = document.getElementById("clearBtn");     // NEW
-  const duelDiv    = document.getElementById("duel");
-  const leftBtn    = document.getElementById("leftOpt");
-  const rightBtn   = document.getElementById("rightOpt");
-  const champDiv   = document.getElementById("champion");
-  const champName  = document.getElementById("champName");
-  const redoBtn    = document.getElementById("redoBtn");
+  // 1) Elements
+  const setup     = document.getElementById("setup");
+  const optionsIn = document.getElementById("optionsInput");
+  const startBtn  = document.getElementById("startBtn");
+  const clearBtn  = document.getElementById("clearBtn");
+  const duelDiv   = document.getElementById("duel");
+  const leftBtn   = document.getElementById("leftOpt");
+  const rightBtn  = document.getElementById("rightOpt");
+  const champDiv  = document.getElementById("champion");
+  const champName = document.getElementById("champName");
+  const redoBtn   = document.getElementById("redoBtn");
 
   let bracket = [], winners = [];
 
-  // 2) Persistent state: load saved list, show Clear if exists
+  // 2) Load persisted list
   const saved = JSON.parse(localStorage.getItem("duelOpts") || "[]");
   if (saved.length > 1) {
     optionsIn.value = saved.join("\n");
     clearBtn.classList.remove("hidden");
   }
 
-  // 3) Clear stored list
+  // 3) Clear storage
   clearBtn.addEventListener("click", () => {
     localStorage.removeItem("duelOpts");
     optionsIn.value = "";
     clearBtn.classList.add("hidden");
   });
 
-  // 4) Start duels: parse input, save, then kick off bracket
+  // 4) Start duels
   startBtn.addEventListener("click", () => {
     const opts = optionsIn.value
-      .split(/[\n,]+/)      // split on newlines or commas
+      .split(/[\n,]+/)
       .map(o => o.trim())
       .filter(o => o);
 
@@ -39,16 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    localStorage.setItem("duelOpts", JSON.stringify(opts));  // SAVE
+    // persist list
+    localStorage.setItem("duelOpts", JSON.stringify(opts));
     clearBtn.classList.remove("hidden");
 
+    // initialize bracket
     bracket = buildPairs(shuffle(opts));
     setup.classList.add("hidden");
     duelDiv.classList.remove("hidden");
     nextDuel();
   });
 
-  // 5) Shuffle & pair builder
+  // 5) Shuffle & pair
   function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
   }
@@ -63,19 +65,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 6) Show next duel
   function nextDuel() {
-    if (bracket.length === 0) {
-      return showChampion(winners[0]);
-    }
+    if (!bracket.length) return showChampion(winners[0]);
     const [a, b] = bracket.shift();
-
-    // 6a) Update both image alt texts & labels
-    leftBtn.querySelector(".opt-img").alt   = a;
-    rightBtn.querySelector(".opt-img").alt  = b;
     leftBtn.querySelector(".opt-label").textContent  = a;
     rightBtn.querySelector(".opt-label").textContent = b;
   }
 
-  // 7) Handle duels
+  // 7) Handle picks
   [leftBtn, rightBtn].forEach(btn => {
     btn.addEventListener("click", () => {
       winners.push(btn.querySelector(".opt-label").textContent);
@@ -84,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         bracket = buildPairs(shuffle(winners));
         winners = [];
       }
-
       nextDuel();
     });
   });
@@ -96,6 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     champDiv.classList.remove("hidden");
   }
 
-  // 9) Start over
+  // 9) Restart
   redoBtn.addEventListener("click", () => location.reload());
 });
