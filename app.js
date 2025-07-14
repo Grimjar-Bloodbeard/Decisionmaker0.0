@@ -1,14 +1,12 @@
 // app.js – Decision Maker Logic
 
 document.addEventListener("DOMContentLoaded", () => {
-  // 1) Load or initialize data
+  // 1) Load defaults & data
   const defaults = {
-    values: ["Freedom", "Fun", "Growth", "Learning", "Community"],
-    contexts: {
-      "Daily Pick": ["Modding", "Watch Show", "Walk", "Read"]
-    }
+    values: ["Freedom","Fun","Growth","Learning","Community"],
+    contexts: { "Daily Pick": ["Modding","Watch Show","Walk","Read"] }
   };
-  const data = JSON.parse(localStorage.getItem("decider")) || defaults;
+  const data   = JSON.parse(localStorage.getItem("decider")) || defaults;
   const values = data.values;
 
   // 2) Grab UI elements
@@ -22,24 +20,25 @@ document.addEventListener("DOMContentLoaded", () => {
   const resTable = document.getElementById("resTable");
   const redoBtn  = document.getElementById("redoBtn");
 
-  // 3) Populate the context dropdown
+  // 3) Populate dropdown with placeholder + real options
+  ctxSel.innerHTML = `<option value="">— Select a context —</option>`;
   Object.keys(data.contexts).forEach(ctx => {
     const opt = document.createElement("option");
-    opt.value = ctx;
+    opt.value       = ctx;
     opt.textContent = ctx;
     ctxSel.append(opt);
   });
 
-  // 4) Disable Start until a context is chosen
+  // 4) Enable Start only when something’s selected
   startBtn.disabled = true;
   ctxSel.addEventListener("change", () => {
     startBtn.disabled = !ctxSel.value;
   });
 
-  // 5) Handle Start click: lock UI & show first slider set
-  let options = [], scores = [], idx = 0;
+  // 5) On Start: lock UI & show first slider set
+  let options, scores = [], idx = 0;
   startBtn.addEventListener("click", () => {
-    options = data.contexts[ctxSel.value];
+    options           = data.contexts[ctxSel.value];
     ctxSel.disabled   = true;
     startBtn.disabled = true;
     scoring.classList.remove("hidden");
@@ -57,26 +56,25 @@ document.addEventListener("DOMContentLoaded", () => {
       row.className = "slider-row";
       row.innerHTML = `
         <label>${val}</label>
-        <input type="range" min="0" max="10" value="5" data-val="${val}">
+        <input type="range" min="0" max="10" value="5" data-val="${val}" />
         <span>5</span>
       `;
-      const range = row.querySelector("input");
+      const input = row.querySelector("input");
       const span  = row.querySelector("span");
 
-      range.addEventListener("input", () => {
-        span.textContent = range.value;
+      input.addEventListener("input", () => {
+        span.textContent = input.value;
       });
 
       sliders.append(row);
     });
   }
 
-  // 6) Handle Next click: save scores or show results
+  // 6) On Next: save weights or show results
   nextBtn.addEventListener("click", () => {
-    // Collect weights for this option
     const entry = { opt: options[idx], weights: {} };
-    sliders.querySelectorAll("input").forEach(input => {
-      entry.weights[input.dataset.val] = Number(input.value);
+    sliders.querySelectorAll("input").forEach(i => {
+      entry.weights[i.dataset.val] = Number(i.value);
     });
     scores.push(entry);
 
@@ -88,34 +86,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // 7) Build and display results table
+  // 7) Display results table
   function showResults() {
     scoring.classList.add("hidden");
     results.classList.remove("hidden");
 
-    // Table header
+    // Header row
     resTable.innerHTML = "";
     const header = document.createElement("tr");
-    header.innerHTML = "<th>Option</th>" +
-      values.map(v => `<th>${v}</th>`).join("") +
-      "<th>Total</th>";
+    header.innerHTML = `<th>Option</th>${
+      values.map(v => `<th>${v}</th>`).join("")
+    }<th>Total</th>`;
     resTable.append(header);
 
-    // Table rows
-    scores.forEach(entry => {
-      const total = values.reduce((sum, v) => sum + entry.weights[v], 0);
-      const row = document.createElement("tr");
-      row.innerHTML = `<td>${entry.opt}</td>` +
-        values.map(v => `<td>${entry.weights[v]}</td>`).join("") +
-        `<td>${total}</td>`;
+    // Data rows
+    scores.forEach(e => {
+      const total = values.reduce((sum, v) => sum + e.weights[v], 0);
+      const row   = document.createElement("tr");
+      row.innerHTML = `<td>${e.opt}</td>${
+        values.map(v => `<td>${e.weights[v]}</td>`).join("")
+      }<td>${total}</td>`;
       resTable.append(row);
     });
   }
 
-  // 8) Reset on Redo
-  redoBtn.addEventListener("click", () => {
-    location.reload();
-  });
+  // 8) Redo reloads the page
+  redoBtn.addEventListener("click", () => location.reload());
 
   console.log("🎉 Decision Maker ready!");
 });
