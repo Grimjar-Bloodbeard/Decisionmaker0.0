@@ -2,37 +2,53 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Dynamic Duels</title>
+  <title>Opossum Knights Duel</title>
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
-  <!-- 1. Setup Screen -->
+  <!-- SETUP SCREEN -->
   <div id="setup">
-    <h1>Enter Your Items</h1>
+    <h1>Opossum Knights Duel</h1>
     <textarea
       id="optionsInput"
       placeholder="Type or paste items, separated by commas or new lines"
       rows="6"
     ></textarea>
+
+    <!-- 1) Compare Now button (unchanged) -->
     <button id="startBtn">Compare Now</button>
+
+    <!-- 2) NEW: Clear Saved button to wipe persistent state -->
+    <!--    Insert immediately after #startBtn so users can reset -->
+    <button id="clearBtn" class="hidden">Clear Saved</button>
   </div>
 
-  <!-- 2. Duel Screen -->
+  <!-- DUEL SCREEN -->
   <div id="duel" class="hidden">
-    <button id="leftOpt"  class="duel-btn"></button>
+    <!-- 3) Each button now contains an image + label -->
+    <button id="leftOpt" class="duel-btn">
+      <img src="img/opossum-knight-left.png" alt="Opossum Knight" class="opt-img"/>
+      <span class="opt-label"></span>
+    </button>
+
     <span class="versus">vs</span>
-    <button id="rightOpt" class="duel-btn"></button>
+
+    <button id="rightOpt" class="duel-btn">
+      <img src="img/opossum-knight-right.png" alt="Opossum Knight" class="opt-img"/>
+      <span class="opt-label"></span>
+    </button>
   </div>
 
-  <!-- 3. Champion Screen -->
+  <!-- CHAMPION SCREEN -->
   <div id="champion" class="hidden">
-    <h2>Your Winner Is…</h2>
+    <h2>Your Champion Is…</h2>
     <div id="champName"></div>
     <button id="redoBtn">Start Over</button>
   </div>
 
+  <!-- Script at end of body ensures HTML elements exist before JS runs -->
   <script src="app.js"></script>
 </body>
 </html>
