@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nextDuel();
   });
 
-  // 5) Shuffle & pair
+  // 5) Shuffle & pair builder
   function shuffle(arr) {
     return arr.sort(() => Math.random() - 0.5);
   }
@@ -84,32 +84,28 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 8) Show champion
+  // 8) Report to Google Sheets (via Apps Script)
+  function reportResults(opts, picks, winner) {
+    fetch(
+      "https://script.google.com/macros/s/AKfycbzFMEIKkCQpDpmHVgXBvNGr1ZXEX0qec4BgONZWfa0u_gd7I4bSIsjtgvGauP2c4Qrs/exec", 
+      {
+        method: "POST",
+        mode: "no-cors",  // avoid CORS preflight; response is opaque
+        body: JSON.stringify({ options: opts, picks, winner })
+      }
+    );
+  }
+
+  // 9) Show champion & send data
   function showChampion(name) {
     duelDiv.classList.add("hidden");
     champName.textContent = name;
     champDiv.classList.remove("hidden");
+
+    const opts = JSON.parse(localStorage.getItem("duelOpts") || "[]");
+    reportResults(opts, winners, name);
   }
-function reportResults(opts, picks, winner) {
-  fetch("https://script.google.com/macros/s/AKfycbzFMEIKkCQpDpmHVgXBvNGr1ZXEX0qec4BgONZWfa0u_gd7I4bSIsjtgvGauP2c4Qrs/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ options: opts, picks, winner })
-  })
-  .then(r => r.json())
-  .then(res => console.log("GAS saved:", res))
-  .catch(console.error);
-}
 
-function showChampion(name) {
-  duelDiv.classList.add("hidden");
-  champName.textContent = name;
-  champDiv.classList.remove("hidden");
-
-  // Report to Google Sheets
-  const opts   = JSON.parse(localStorage.getItem("duelOpts") || "[]");
-  reportResults(opts, winners, name);
-}
-  // 9) Restart
+  // 10) Restart
   redoBtn.addEventListener("click", () => location.reload());
 });
