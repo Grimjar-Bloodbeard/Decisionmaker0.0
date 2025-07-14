@@ -7,21 +7,33 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+
+  <!-- 1) Setup Screen -->
   <div id="setup">
     <h1>Enter Your Options</h1>
-    <textarea id="optionsInput" placeholder="One option per line" rows="6"></textarea>
+    <textarea
+      id="optionsInput"
+      placeholder="One option per line"
+      rows="6"
+    ></textarea>
     <button id="startBtn">Start Duels</button>
   </div>
+
+  <!-- 2) Duel Screen -->
   <div id="duel" class="hidden">
-    <button id="leftOpt" class="duel-btn"></button>
+    <button id="leftOpt"  class="duel-btn"></button>
     <span class="versus">vs</span>
     <button id="rightOpt" class="duel-btn"></button>
   </div>
+
+  <!-- 3) Champion Screen -->
   <div id="champion" class="hidden">
     <h2>Champion!</h2>
     <div id="champName"></div>
     <button id="redoBtn">Duel Again</button>
   </div>
+
+  <!-- Your logic runs after the DOM is fully parsed -->
   <script src="app.js"></script>
 </body>
 </html>
