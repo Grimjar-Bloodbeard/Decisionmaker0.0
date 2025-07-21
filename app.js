@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 0) New: grab the Copy-Link button
+  const copyLinkBtn = document.getElementById("copyLinkBtn");
+
   // 1) Elements
   const setup     = document.getElementById("setup");
   const optionsIn = document.getElementById("optionsInput");
@@ -12,6 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const redoBtn   = document.getElementById("redoBtn");
 
   let bracket = [], winners = [];
+
+  // 0b) New: parse ?opts=… from URL
+  function getOptsFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const raw    = params.get("opts");
+    if (!raw) return null;
+    return raw
+      .split(/[\n,]+/)
+      .map(o => decodeURIComponent(o.trim()))
+      .filter(o => o);
+  }
+  // If we got shared options, prefill & auto-start
+  const sharedOpts = getOptsFromURL();
+  if (sharedOpts && sharedOpts.length > 1) {
+    optionsIn.value = sharedOpts.join("\n");
+    clearBtn.classList.remove("hidden");
+    startBtn.click();              // fires your “Start duels” handler
+  }
 
   // 2) Load persisted list
   const saved = JSON.parse(localStorage.getItem("duelOpts") || "[]");
@@ -42,6 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // persist list
     localStorage.setItem("duelOpts", JSON.stringify(opts));
     clearBtn.classList.remove("hidden");
+
+    // New: reveal Copy-Link
+    copyLinkBtn.classList.remove("hidden");
 
     // initialize bracket
     bracket = buildPairs(shuffle(opts));
@@ -87,10 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // 8) Report to Google Sheets (via Apps Script)
   function reportResults(opts, picks, winner) {
     fetch(
-      "https://script.google.com/macros/s/AKfycbzFMEIKkCQpDpmHVgXBvNGr1ZXEX0qec4BgONZWfa0u_gd7I4bSIsjtgvGauP2c4Qrs/exec", 
+      "https://script.google.com/macros/s/AKfycbzFMEIKkCQpDpmHVgXBvNGr1ZXEX0qec4BgONZWfa0u_gd7I4bSIsjtgvGauP2c4Qrs/exec",
       {
         method: "POST",
-        mode: "no-cors",  // avoid CORS preflight; response is opaque
+        mode: "no-cors",
         body: JSON.stringify({ options: opts, picks, winner })
       }
     );
@@ -108,4 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 10) Restart
   redoBtn.addEventListener("click", () => location.reload());
-});
+
+  // 11) New: Copy Link handler
+  copyLinkBtn.addEventListener("click", () => {
+    const opts  = JSON.parse(localStorage.getItem("duelOpts") || "[]");
+    const param = opts.map(o => encodeURIComponent(o)).join(",");
+    const url   = `${location.origin}${location.pathname}?opts=${param}`;
+
+    navigator.clipboard.writeText(url)
+      .then(() => alert("Link copied!"))
+      .catch(() => prompt("Copy this link:", url));
+  });
+
+}); // end DOMContentLoaded
