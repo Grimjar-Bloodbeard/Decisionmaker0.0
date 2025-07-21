@@ -96,3 +96,6 @@ button:hover { background: var(--accent); }
   font-size: 2rem;
   margin: 1rem 0;
 }
+#copyLinkBtn {
+  margin-top: 0.5rem;
+}
