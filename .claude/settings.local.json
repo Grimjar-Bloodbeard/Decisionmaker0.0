@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(/d/summitserver/node.exe:*)",
+      "Bash(/c/summitserver/node.exe /c/summitserver/npm install:*)",
+      "Bash(/c/summitserver/node.exe:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

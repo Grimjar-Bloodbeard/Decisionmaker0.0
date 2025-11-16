@@ -1,0 +1,429 @@
+/* ============================================
+   PERSONALITY-SPECIFIC VISUAL WORLDS
+   Each AI gets its own complete aesthetic
+   ============================================ */
+
+/* ========== LOGICAL: Matrix Terminal ========== */
+body.personality-logical {
+  font-family: 'Courier New', monospace;
+}
+
+body.personality-logical h1,
+body.personality-logical .personality-name {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+body.personality-logical .duel-btn {
+  border: 2px solid var(--primary);
+  border-radius: 0;
+  font-family: 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+body.personality-logical .duel-btn:hover {
+  box-shadow: 0 0 20px var(--primary), inset 0 0 20px rgba(0, 255, 65, 0.1);
+  transform: translateY(-4px);
+}
+
+body.personality-logical .ai-commentary {
+  font-family: 'Courier New', monospace;
+}
+
+body.personality-logical .ai-commentary::before {
+  content: '>';
+  font-family: 'Courier New', monospace;
+}
+
+/* Matrix rain effect */
+body.personality-logical::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(transparent 0%, rgba(0, 255, 65, 0.05) 50%, transparent 100%);
+  background-size: 2px 200px;
+  animation: matrix-rain 20s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+
+@keyframes matrix-rain {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 200px; }
+}
+
+/* ========== SAVAGE: Aggressive Fire ========== */
+body.personality-savage {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+}
+
+body.personality-savage .ai-commentary {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+}
+
+body.personality-savage h1 {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+}
+
+body.personality-savage .duel-btn {
+  border: 3px solid var(--primary);
+  border-radius: 4px;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: skew(-2deg);
+  transition: all 0.2s ease;
+}
+
+body.personality-savage .duel-btn:hover {
+  transform: skew(-2deg) translateY(-6px) scale(1.05);
+  box-shadow: 0 0 30px var(--primary), 0 10px 40px rgba(255, 8, 68, 0.4);
+  animation: savage-shake 0.3s infinite;
+}
+
+@keyframes savage-shake {
+  0%, 100% { transform: skew(-2deg) translateY(-6px) translateX(0); }
+  25% { transform: skew(-2deg) translateY(-6px) translateX(-2px); }
+  75% { transform: skew(-2deg) translateY(-6px) translateX(2px); }
+}
+
+body.personality-savage .versus {
+  font-size: 3rem;
+  text-shadow: 0 0 20px var(--accent);
+  animation: savage-pulse 0.8s infinite;
+}
+
+@keyframes savage-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(5deg); }
+}
+
+/* Fire particles */
+body.personality-savage::after {
+  content: '';
+  position: fixed;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at bottom, rgba(255, 8, 68, 0.2) 0%, transparent 70%);
+  animation: fire-rise 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes fire-rise {
+  0% { transform: translateY(0) scale(1); opacity: 0.5; }
+  50% { transform: translateY(-30%) scale(1.2); opacity: 0.7; }
+  100% { transform: translateY(-50%) scale(1); opacity: 0.5; }
+}
+
+/* ========== ZEN: Peaceful Nature ========== */
+body.personality-zen {
+  font-family: 'Georgia', serif;
+}
+
+body.personality-zen h1 {
+  font-family: 'Georgia', serif;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+body.personality-zen .duel-btn {
+  border: 2px solid var(--primary);
+  border-radius: 24px;
+  font-weight: 300;
+  transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body.personality-zen .duel-btn:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(95, 195, 160, 0.3);
+  animation: zen-breathe 3s ease-in-out infinite;
+}
+
+@keyframes zen-breathe {
+  0%, 100% { transform: translateY(-4px) scale(1); }
+  50% { transform: translateY(-6px) scale(1.02); }
+}
+
+body.personality-zen .versus {
+  animation: zen-float 4s ease-in-out infinite;
+}
+
+@keyframes zen-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+body.personality-zen .ai-commentary {
+  font-family: 'Georgia', serif;
+}
+
+body.personality-zen .ai-commentary::before {
+  content: '☯';
+}
+
+/* Gentle wave effect */
+body.personality-zen::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(to top, rgba(95, 195, 160, 0.1), transparent);
+  animation: zen-wave 8s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes zen-wave {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(1.2); }
+}
+
+/* ========== DRAMATIC: Theatrical Stage ========== */
+body.personality-dramatic {
+  font-family: 'Palatino', 'Times New Roman', serif;
+}
+
+body.personality-dramatic .ai-commentary {
+  font-family: 'Palatino', 'Times New Roman', serif;
+  max-height: 140px !important;
+  font-size: 0.95rem !important;
+  line-height: 1.5 !important;
+}
+
+body.personality-dramatic h1 {
+  font-family: 'Palatino', 'Times New Roman', serif;
+  font-size: 4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  text-shadow: 0 0 30px var(--accent), 0 0 60px var(--primary);
+  animation: dramatic-title 2s ease-in-out infinite;
+}
+
+@keyframes dramatic-title {
+  0%, 100% { transform: scale(1); text-shadow: 0 0 30px var(--accent), 0 0 60px var(--primary); }
+  50% { transform: scale(1.05); text-shadow: 0 0 50px var(--accent), 0 0 100px var(--primary); }
+}
+
+body.personality-dramatic .duel-btn {
+  border: 4px double var(--accent);
+  border-radius: 8px;
+  font-family: 'Palatino', serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  box-shadow: 0 0 40px var(--primary);
+}
+
+body.personality-dramatic .duel-btn:hover {
+  transform: translateY(-10px) scale(1.08);
+  box-shadow: 0 0 60px var(--primary), 0 20px 60px rgba(217, 70, 239, 0.6);
+  animation: dramatic-spotlight 0.5s ease-in-out;
+}
+
+@keyframes dramatic-spotlight {
+  0%, 100% { box-shadow: 0 0 60px var(--primary); }
+  50% { box-shadow: 0 0 100px var(--accent), 0 0 150px var(--primary); }
+}
+
+body.personality-dramatic .versus {
+  font-size: 4rem;
+  text-shadow: 0 0 40px var(--accent);
+  animation: dramatic-versus 1.5s ease-in-out infinite;
+}
+
+@keyframes dramatic-versus {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(10deg); opacity: 0.8; }
+}
+
+/* Stage curtains effect */
+body.personality-dramatic::before,
+body.personality-dramatic::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  width: 15%;
+  height: 100%;
+  background: linear-gradient(to right, rgba(26, 0, 51, 0.8), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+body.personality-dramatic::before { left: 0; }
+body.personality-dramatic::after { right: 0; transform: scaleX(-1); }
+
+/* ========== CHAOTIC: Glitch Madness ========== */
+body.personality-chaotic {
+  font-family: 'Comic Sans MS', 'Marker Felt', cursive;
+}
+
+body.personality-chaotic .ai-commentary {
+  font-family: 'Comic Sans MS', 'Marker Felt', cursive;
+}
+
+body.personality-chaotic h1 {
+  font-family: 'Comic Sans MS', cursive;
+  animation: chaotic-glitch 0.5s infinite;
+  text-shadow:
+    2px 2px 0 var(--accent),
+    -2px -2px 0 var(--primary),
+    4px 4px 10px var(--accent);
+}
+
+@keyframes chaotic-glitch {
+  0%, 100% { transform: translate(0, 0) skew(0deg); }
+  25% { transform: translate(-2px, 2px) skew(2deg); }
+  50% { transform: translate(2px, -2px) skew(-2deg); }
+  75% { transform: translate(-2px, -2px) skew(1deg); }
+}
+
+body.personality-chaotic .duel-btn {
+  border: 3px solid var(--primary);
+  border-radius: 50% 20% / 10% 40%;
+  font-family: 'Comic Sans MS', cursive;
+  font-weight: 700;
+  animation: chaotic-wobble 2s ease-in-out infinite;
+}
+
+@keyframes chaotic-wobble {
+  0%, 100% { border-radius: 50% 20% / 10% 40%; }
+  25% { border-radius: 20% 50% / 40% 10%; }
+  50% { border-radius: 30% 30% / 30% 30%; }
+  75% { border-radius: 40% 10% / 20% 50%; }
+}
+
+body.personality-chaotic .duel-btn:hover {
+  transform: translateY(-8px) rotate(5deg) scale(1.1);
+  box-shadow:
+    5px 5px 0 var(--accent),
+    -5px -5px 0 var(--primary),
+    10px 10px 30px rgba(255, 20, 147, 0.5);
+  animation: chaotic-spasm 0.2s infinite;
+}
+
+@keyframes chaotic-spasm {
+  0% { transform: translateY(-8px) rotate(5deg); }
+  25% { transform: translateY(-10px) rotate(-3deg); }
+  50% { transform: translateY(-6px) rotate(7deg); }
+  75% { transform: translateY(-12px) rotate(-2deg); }
+  100% { transform: translateY(-8px) rotate(5deg); }
+}
+
+body.personality-chaotic .versus {
+  animation: chaotic-spin 3s linear infinite;
+  filter: hue-rotate(0deg);
+  animation: chaotic-rainbow 2s linear infinite;
+}
+
+@keyframes chaotic-rainbow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Rainbow glitch effect */
+body.personality-chaotic::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.03) 2px,
+    rgba(255, 255, 255, 0.03) 4px
+  );
+  animation: chaotic-scanlines 0.1s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes chaotic-scanlines {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
+}
+
+/* ========== CORPORATE: PowerPoint Hell ========== */
+body.personality-corporate {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.personality-corporate .ai-commentary {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body.personality-corporate h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+body.personality-corporate .duel-btn {
+  border: 1px solid var(--primary);
+  border-radius: 2px;
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+body.personality-corporate .duel-btn:hover {
+  transform: none;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.3);
+  background: rgba(93, 173, 226, 0.1);
+}
+
+body.personality-corporate .versus {
+  animation: none;
+  font-weight: 400;
+}
+
+/* Corporate grid background */
+body.personality-corporate::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(rgba(93, 173, 226, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(93, 173, 226, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Slide transition effect */
+body.personality-corporate .duel-btn {
+  animation: corporate-slide-in 0.5s ease-out;
+}
+
+@keyframes corporate-slide-in {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

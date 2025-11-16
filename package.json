@@ -1,0 +1,19 @@
+{
+  "name": "deciduel",
+  "version": "1.0.0",
+  "description": "Decision-making tool using tournament brackets with AI commentary",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["decision", "tournament", "ai", "bracket"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  }
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Deciduel - Decision Making Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="personality-styles.css" />
+</head>
+<body>
+
+  <!-- PERSONALITY SELECTION SCREEN -->
+  <div id="personalitySelect">
+    <h1>Choose Your Vibe</h1>
+    <p class="subtitle">Pick the AI personality that matches your mood</p>
+    <div id="personalityGrid" class="personality-grid">
+      <!-- Populated by JavaScript -->
+    </div>
+    <button id="randomVibeBtn" class="secondary-btn">✨ Surprise Me (Random)</button>
+  </div>
+
+  <!-- SETUP SCREEN -->
+  <div id="setup" class="hidden">
+    <div class="personality-badge" id="selectedPersonalityBadge"></div>
+    <h1>Deciduel</h1>
+    <textarea
+      id="optionsInput"
+      placeholder="Type or paste your options (comma or line separated)&#10;&#10;Example:&#10;Pizza&#10;Tacos&#10;Burgers&#10;Sushi"
+      rows="8"
+    ></textarea>
+
+    <button id="startBtn">⚔️ Start the Duel</button>
+    <button id="clearBtn" class="hidden secondary-btn">Clear Saved</button>
+    <button id="changePersonalityBtn" class="secondary-btn">Change Vibe</button>
+  </div>
+
+  <!-- DUEL SCREEN -->
+  <div id="duel" class="hidden">
+    <div class="round-indicator" id="roundIndicator">Round 1</div>
+    <div id="aiCommentary" class="ai-commentary">
+      <div class="loading-dots">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+    <div class="duel-buttons-row">
+      <button id="leftOpt" class="duel-btn">
+        <span class="opt-label"></span>
+      </button>
+      <span class="versus">VS</span>
+      <button id="rightOpt" class="duel-btn">
+        <span class="opt-label"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- CHAMPION SCREEN -->
+  <div id="champion" class="hidden">
+    <h2>Your Winner Is…</h2>
+    <div id="champName"></div>
+    <div id="champStats" class="champ-stats"></div>
+    <div class="champion-actions">
+      <button id="shareBtn">📸 Share Result</button>
+      <button id="redoBtn">🔄 Start Over</button>
+      <button id="copyLinkBtn" class="secondary-btn">🔗 Copy Link</button>
+    </div>
+  </div>
+
+  <!-- Hidden canvas for generating share images -->
+  <canvas id="shareCanvas" style="display: none;"></canvas>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
