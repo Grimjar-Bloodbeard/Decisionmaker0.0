@@ -93,7 +93,26 @@ app.post("/api/ai", async (req, res) => {
     });
 
     const data = await response.json();
-    const commentary = data.choices?.[0]?.message?.content || "Make your choice!";
+    let commentary = data.choices?.[0]?.message?.content || "Make your choice!";
+
+    // Hard character limit to prevent overflow (about 2 sentences)
+    const MAX_CHARS = 150;
+    if (commentary.length > MAX_CHARS) {
+      // Cut at last complete sentence before limit
+      const truncated = commentary.substring(0, MAX_CHARS);
+      const lastPeriod = truncated.lastIndexOf('.');
+      const lastExclaim = truncated.lastIndexOf('!');
+      const lastQuestion = truncated.lastIndexOf('?');
+      const lastSentence = Math.max(lastPeriod, lastExclaim, lastQuestion);
+
+      if (lastSentence > 50) {
+        commentary = truncated.substring(0, lastSentence + 1);
+      } else {
+        // No sentence break found, hard cut and add ellipsis
+        commentary = truncated.substring(0, MAX_CHARS - 3) + '...';
+      }
+    }
+
     res.json({ commentary });
 
   } catch (err) {
