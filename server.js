@@ -95,8 +95,8 @@ app.post("/api/ai", async (req, res) => {
     const data = await response.json();
     let commentary = data.choices?.[0]?.message?.content || "Make your choice!";
 
-    // Hard character limit to prevent overflow (about 2 sentences)
-    const MAX_CHARS = 150;
+    // Hard character limit to prevent overflow (about 1-2 sentences)
+    const MAX_CHARS = 100;
     if (commentary.length > MAX_CHARS) {
       // Cut at last complete sentence before limit
       const truncated = commentary.substring(0, MAX_CHARS);
