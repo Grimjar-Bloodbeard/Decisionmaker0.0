@@ -383,16 +383,17 @@ button:active {
   border: 1px solid var(--card-border);
   border-radius: var(--btn-radius);
   text-align: center;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 0.9rem; /* Smaller font */
+  line-height: 1.5;
   color: var(--text);
-  min-height: 80px;
-  max-height: 130px; /* Tighter default - personalities override this */
+  min-height: 100px;
+  max-height: none; /* Remove height limit - let it grow */
+  height: auto;
   display: block;
   box-shadow: var(--shadow-md);
   position: relative;
   transition: all 0.4s ease;
-  overflow-y: auto;
+  overflow-y: visible; /* No scrolling needed if height is auto */
   overflow-x: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
