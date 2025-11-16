@@ -30,6 +30,8 @@ body.personality-logical .duel-btn:hover {
 
 body.personality-logical .ai-commentary {
   font-family: 'Courier New', monospace;
+  max-height: 220px !important; /* Logical gets more space for detailed analysis */
+  font-size: 0.95rem !important;
 }
 
 body.personality-logical .ai-commentary::before {
@@ -66,6 +68,8 @@ body.personality-savage {
 
 body.personality-savage .ai-commentary {
   font-family: 'Impact', 'Arial Black', sans-serif;
+  max-height: 160px !important; /* Savage gets less - punchy and brief */
+  font-size: 1rem !important;
 }
 
 body.personality-savage h1 {
@@ -167,6 +171,8 @@ body.personality-zen .versus {
 
 body.personality-zen .ai-commentary {
   font-family: 'Georgia', serif;
+  max-height: 180px !important; /* Zen gets moderate space for thoughtful guidance */
+  font-size: 0.98rem !important;
 }
 
 body.personality-zen .ai-commentary::before {
@@ -199,8 +205,8 @@ body.personality-dramatic {
 
 body.personality-dramatic .ai-commentary {
   font-family: 'Palatino', 'Times New Roman', serif;
-  max-height: 140px !important;
-  font-size: 0.95rem !important;
+  max-height: 180px !important; /* Dramatic gets moderate space - CAPS take more room */
+  font-size: 0.92rem !important; /* Smaller font for CAPS legibility */
   line-height: 1.5 !important;
 }
 
@@ -274,6 +280,8 @@ body.personality-chaotic {
 
 body.personality-chaotic .ai-commentary {
   font-family: 'Comic Sans MS', 'Marker Felt', cursive;
+  max-height: 160px !important; /* Chaotic gets less - brief and wild */
+  font-size: 0.96rem !important;
 }
 
 body.personality-chaotic h1 {
@@ -367,6 +375,8 @@ body.personality-corporate {
 
 body.personality-corporate .ai-commentary {
   font-family: Arial, Helvetica, sans-serif;
+  max-height: 200px !important; /* Corporate gets more space for jargon-heavy text */
+  font-size: 0.94rem !important;
 }
 
 body.personality-corporate h1 {

@@ -374,7 +374,7 @@ button:active {
   gap: 2rem;
 }
 
-/* AI Commentary */
+/* AI Commentary - Dynamic sizing based on personality */
 .ai-commentary {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -386,8 +386,8 @@ button:active {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
-  min-height: 80px;
-  max-height: 120px;
+  min-height: 100px;
+  max-height: 200px; /* Dynamic default - personalities override this */
   display: block;
   box-shadow: var(--shadow-md);
   position: relative;
@@ -396,6 +396,7 @@ button:active {
   overflow-x: hidden;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 /* Hide scrollbar but keep functionality */

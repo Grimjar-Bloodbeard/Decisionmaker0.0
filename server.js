@@ -19,19 +19,32 @@ app.use(express.static(__dirname)); // Serve frontend files
 const GROQ_API_KEY = process.env.GROQ_API_KEY || ""; // Optional - we'll add fallback
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
-// Personality system prompts - MUST be SHORT and punchy
-const PERSONALITY_PROMPTS = {
-  logical: "Give 1-2 SHORT sentences comparing these options with facts or data. Be concise and analytical.",
-
-  savage: "Roast these options in 1-2 SHORT sentences. Be funny and brutal but not mean.",
-
-  zen: "Compare these in 1-2 SHORT calming sentences. Help them trust their gut.",
-
-  dramatic: "Make this EPIC in 1-2 SHORT sentences with CAPS! Be theatrical and ridiculous.",
-
-  chaotic: "Give a weird, funny comparison in 1-2 SHORT sentences. Be random and wild.",
-
-  corporate: "Use business jargon in 1-2 SHORT sentences. Make it sound professional and absurd."
+// Personality-specific configurations (token limits and prompts)
+const PERSONALITY_CONFIG = {
+  logical: {
+    tokens: 80,
+    prompt: "You have 80 tokens (~3-4 sentences). Give analytical, fact-based comparison with data or logic."
+  },
+  savage: {
+    tokens: 50,
+    prompt: "You have 50 tokens (~2 sentences). Roast these options. Be funny and brutal but not mean."
+  },
+  zen: {
+    tokens: 60,
+    prompt: "You have 60 tokens (~2-3 sentences). Compare calmly. Help them trust their gut."
+  },
+  dramatic: {
+    tokens: 60,
+    prompt: "You have 60 tokens (~2 sentences). Make this EPIC with CAPS! Be theatrical but BRIEF."
+  },
+  chaotic: {
+    tokens: 50,
+    prompt: "You have 50 tokens (~2 sentences). Give weird, funny comparison. Be random and wild."
+  },
+  corporate: {
+    tokens: 70,
+    prompt: "You have 70 tokens (~3 sentences). Use business jargon. Make it professional and absurd."
+  }
 };
 
 // AI commentary endpoint
@@ -52,8 +65,8 @@ app.post("/api/ai", async (req, res) => {
       return res.json({ commentary: randomFallback });
     }
 
-    // Get personality prompt
-    const systemPrompt = PERSONALITY_PROMPTS[personality] || PERSONALITY_PROMPTS.logical;
+    // Get personality config
+    const config = PERSONALITY_CONFIG[personality] || PERSONALITY_CONFIG.logical;
 
     // Call Groq API
     const response = await fetch(GROQ_URL, {
@@ -67,14 +80,14 @@ app.post("/api/ai", async (req, res) => {
         messages: [
           {
             role: "system",
-            content: systemPrompt
+            content: config.prompt
           },
           {
             role: "user",
             content: `Compare these two options: "${optionA}" vs "${optionB}"`
           }
         ],
-        max_tokens: 40,  // ~1-2 short sentences
+        max_tokens: config.tokens,
         temperature: personality === 'chaotic' ? 1.2 : 0.9
       })
     });
