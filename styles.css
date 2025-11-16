@@ -386,8 +386,8 @@ button:active {
   font-size: 1rem;
   line-height: 1.6;
   color: var(--text);
-  min-height: 100px;
-  max-height: 200px; /* Dynamic default - personalities override this */
+  min-height: 80px;
+  max-height: 130px; /* Tighter default - personalities override this */
   display: block;
   box-shadow: var(--shadow-md);
   position: relative;

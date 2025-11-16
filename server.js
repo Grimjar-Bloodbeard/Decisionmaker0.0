@@ -22,28 +22,28 @@ const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 // Personality-specific configurations (token limits and prompts)
 const PERSONALITY_CONFIG = {
   logical: {
-    tokens: 80,
-    prompt: "You have 80 tokens (~3-4 sentences). Give analytical, fact-based comparison with data or logic."
+    tokens: 50,
+    prompt: "MAXIMUM 2 sentences. Analytical comparison with facts. Be concise."
   },
   savage: {
-    tokens: 50,
-    prompt: "You have 50 tokens (~2 sentences). Roast these options. Be funny and brutal but not mean."
+    tokens: 35,
+    prompt: "MAXIMUM 2 sentences. Roast these options. Funny, brutal, BRIEF."
   },
   zen: {
-    tokens: 60,
-    prompt: "You have 60 tokens (~2-3 sentences). Compare calmly. Help them trust their gut."
+    tokens: 40,
+    prompt: "MAXIMUM 2 sentences. Calm comparison. Help them trust their gut."
   },
   dramatic: {
-    tokens: 60,
-    prompt: "You have 60 tokens (~2 sentences). Make this EPIC with CAPS! Be theatrical but BRIEF."
+    tokens: 40,
+    prompt: "MAXIMUM 2 sentences. EPIC with CAPS but BRIEF! Theatrical, not lengthy."
   },
   chaotic: {
-    tokens: 50,
-    prompt: "You have 50 tokens (~2 sentences). Give weird, funny comparison. Be random and wild."
+    tokens: 35,
+    prompt: "MAXIMUM 2 sentences. Weird comparison. Brief and wild."
   },
   corporate: {
-    tokens: 70,
-    prompt: "You have 70 tokens (~3 sentences). Use business jargon. Make it professional and absurd."
+    tokens: 45,
+    prompt: "MAXIMUM 2 sentences. Business jargon. Professional, absurd, BRIEF."
   }
 };
 
